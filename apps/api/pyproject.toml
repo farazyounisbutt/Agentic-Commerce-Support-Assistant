@@ -1,0 +1,33 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "agentic-commerce-support-api"
+version = "0.1.0"
+description = "FastAPI foundation for Agentic Commerce Support"
+requires-python = ">=3.12"
+dependencies = [
+  "alembic>=1.14,<2",
+  "fastapi>=0.115,<1",
+  "langchain>=0.3,<2",
+  "langchain-openai>=0.2,<2",
+  "langgraph>=0.2,<2",
+  "psycopg[binary]>=3.2,<4",
+  "pydantic-settings>=2.6,<3",
+  "sqlalchemy>=2.0,<3",
+  "uvicorn[standard]>=0.32,<1",
+]
+
+[project.optional-dependencies]
+dev = [
+  "httpx>=0.28,<1",
+  "pytest>=8.3,<9",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["app"]
+
