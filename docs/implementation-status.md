@@ -6,7 +6,7 @@ Agentic Commerce Support Assistant
 
 ## Current Phase
 
-RAG data layer and retrieval foundation completed.
+Typed commerce lookup tools completed.
 
 ## Completed
 
@@ -114,6 +114,22 @@ Validation:
 - unit tests with mocked embedding behavior
 - Alembic migration applied successfully to the local pgvector PostgreSQL container
 
+### Task 05 - Typed Order and Product Application Tools
+
+Status: Complete
+
+Implemented:
+
+- typed Pydantic contracts for order, shipment, product, variant, and search results
+- read-only, parameterized SQLAlchemy application service for order and product lookup
+- database-independent typed tool facade for future workflow integration
+- deterministic support for order lookup, product search, and size/color variant filters
+
+Validation:
+
+- focused unit tests backed by deterministic seed object graphs
+- live read-only validation against the local seeded PostgreSQL database
+
 ## Architecture Decisions
 
 Current agreed direction:
@@ -133,12 +149,9 @@ Current agreed direction:
 
 ## Next Planned Task
 
-### Task 05 - Order and Product Application Tools
+### Task 06 - LangGraph Routing and Core Orchestration
 
 ## Planned Milestones
-
-### Task 05
-Order and product application tools
 
 ### Task 06
 LangGraph routing and core orchestration
