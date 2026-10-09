@@ -1,13 +1,21 @@
 .DS_Store
+
+# Environment / secrets
 .env
-.env.local
+.env.*
+!.env.example
+
+# Python
 .venv/
+venv/
 __pycache__/
 *.py[cod]
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
 apps/api/.coverage
+
+# Frontend
 apps/web/node_modules/
 apps/web/.next/
 apps/web/out/
