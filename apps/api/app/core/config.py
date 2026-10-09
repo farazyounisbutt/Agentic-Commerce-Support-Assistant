@@ -9,6 +9,7 @@ class Settings(BaseSettings):
     database_url: str = "postgresql+psycopg://agentic_commerce:change-me@localhost:5432/agentic_commerce_support"
     cors_origins: list[str] = ["http://localhost:3000"]
     openai_api_key: str | None = None
+    openai_chat_model: str = "gpt-4.1-mini"
     openai_embedding_model: str = "text-embedding-3-small"
     openai_embedding_dimensions: int = 1536
 

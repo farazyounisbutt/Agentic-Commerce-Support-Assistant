@@ -6,7 +6,7 @@ Agentic Commerce Support Assistant
 
 ## Current Phase
 
-Typed commerce lookup tools completed.
+Core LangGraph orchestration completed.
 
 ## Completed
 
@@ -130,6 +130,22 @@ Validation:
 - focused unit tests backed by deterministic seed object graphs
 - live read-only validation against the local seeded PostgreSQL database
 
+### Task 06 - Core LangGraph Orchestration
+
+Status: Complete
+
+Implemented:
+
+- typed LangGraph state and workflow result contracts
+- structured OpenAI intent-classification and grounded-response interfaces
+- routing for knowledge, order, product, sensitive, and fallback paths
+- evidence, tool-result, risk, escalation, and graph-path state capture
+- sensitive-request completion in a requires-human-review state without interrupt/resume behavior
+
+Validation:
+
+- deterministic unit tests with mocked model, retrieval, and commerce-tool dependencies
+
 ## Architecture Decisions
 
 Current agreed direction:
@@ -149,12 +165,9 @@ Current agreed direction:
 
 ## Next Planned Task
 
-### Task 06 - LangGraph Routing and Core Orchestration
+### Task 07 - Human-in-the-Loop Interrupts and Resume Workflow
 
 ## Planned Milestones
-
-### Task 06
-LangGraph routing and core orchestration
 
 ### Task 07
 Human-in-the-loop interrupts and resume workflow
