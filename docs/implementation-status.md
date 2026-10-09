@@ -6,7 +6,7 @@ Agentic Commerce Support Assistant
 
 ## Current Phase
 
-Foundation completed.
+Commerce database schema completed.
 
 ## Completed
 
@@ -68,6 +68,29 @@ There is currently no safe compatible remediation without an undesirable depende
 
 This does not affect the production dependency tree.
 
+### Task 02 - Commerce Database Schema
+
+Status: Complete
+
+Implemented:
+
+- Customer, Product, ProductVariant, Order, OrderItem, and Shipment models
+- typed SQLAlchemy relationships, enums, constraints, and cascade behavior
+- Alembic migration for the commerce schema
+- PostgreSQL `vector` extension enablement
+- metadata-focused model tests that do not require Docker
+
+Explicitly not implemented:
+
+- seed data
+- RAG/vector tables
+- embeddings
+- LangGraph
+- tools
+- chat functionality
+- CRUD APIs
+- AI implementation
+
 ## Architecture Decisions
 
 Current agreed direction:
@@ -87,32 +110,7 @@ Current agreed direction:
 
 ## Next Planned Task
 
-### Task 02 - Commerce Database Schema
-
-Planned scope:
-
-- Customer model
-- Product model
-- ProductVariant model
-- Order model
-- OrderItem model
-- Shipment model
-- enums and constraints
-- relationships
-- Alembic migration
-- pgvector extension enablement
-- database/model tests
-
-Explicitly excluded from Task 02:
-
-- seed data
-- RAG tables
-- embeddings
-- LangGraph
-- tools
-- chat functionality
-- CRUD APIs
-- AI implementation
+### Task 03 - Realistic Fictional Commerce Seed Dataset
 
 ## Planned Milestones
 

@@ -23,7 +23,7 @@ Copy the example environment file and replace the database password if desired:
 cp .env.example .env
 ```
 
-`DATABASE_URL` uses SQLAlchemy's psycopg 3 dialect. Its default value targets the Compose database exposed on port 5432.
+`DATABASE_URL` uses SQLAlchemy's psycopg 3 dialect. Its default value targets the Compose database exposed on port 5433.
 
 ## Run PostgreSQL
 
@@ -45,6 +45,21 @@ uvicorn app.main:app --reload
 
 The health endpoint is available at `http://localhost:8000/api/health`.
 
+## Run database migrations
+
+With PostgreSQL running and `DATABASE_URL` configured:
+
+```bash
+cd apps/api
+alembic upgrade head
+```
+
+To revert the initial commerce schema migration:
+
+```bash
+alembic downgrade base
+```
+
 ## Start the frontend
 
 ```bash
@@ -64,7 +79,6 @@ pytest
 
 ## Current status
 
-Completed: repository layout, API health endpoint, settings, database/Alembic foundation, Compose PostgreSQL with pgvector, frontend shell, and API tests.
+Completed: repository layout, API health endpoint, settings, Compose PostgreSQL with pgvector, frontend shell, and the initial commerce database schema/migration.
 
-Not implemented: domain schema, seed data, RAG, embeddings, LangGraph workflow, tools, chat, approvals, authentication, or integrations.
-
+Not implemented: seed data, RAG, embeddings, LangGraph workflow, tools, chat, approvals, authentication, or integrations.
