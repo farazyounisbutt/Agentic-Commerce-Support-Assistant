@@ -31,7 +31,7 @@ cp .env.example .env
 docker compose up -d postgres
 ```
 
-The container uses the pgvector image, so the `vector` extension is available for a future Alembic migration. Database data persists in the `postgres_data` Docker volume.
+The container uses the pgvector image. Database data persists in the `postgres_data` Docker volume.
 
 ## Start the API
 
@@ -60,6 +60,26 @@ To revert the initial commerce schema migration:
 alembic downgrade base
 ```
 
+## Seed demo data
+
+After migrations, replace local commerce records with the deterministic demo dataset:
+
+```bash
+cd apps/api
+python -m app.db.seed --reset
+```
+
+## Ingest support knowledge
+
+Set `OPENAI_API_KEY` in `.env`; the default embedding model is `text-embedding-3-small` with its 1,536-dimension vector schema. Then ingest the three Markdown policy/FAQ documents:
+
+```bash
+cd apps/api
+python -m app.ai.retrieval.ingest --reset
+```
+
+The ingestion command reads `data/knowledge`, creates OpenAI embeddings, and stores them in PostgreSQL + pgvector. It does not generate customer-facing answers.
+
 ## Start the frontend
 
 ```bash
@@ -79,6 +99,6 @@ pytest
 
 ## Current status
 
-Completed: repository layout, API health endpoint, settings, Compose PostgreSQL with pgvector, frontend shell, and the initial commerce database schema/migration.
+Completed: repository layout, API health endpoint, settings, Compose PostgreSQL with pgvector, frontend shell, commerce seed data, and the RAG data/retrieval foundation.
 
-Not implemented: seed data, RAG, embeddings, LangGraph workflow, tools, chat, approvals, authentication, or integrations.
+Not implemented: LangGraph workflow, order/product tools, chat, approvals, authentication, or integrations.

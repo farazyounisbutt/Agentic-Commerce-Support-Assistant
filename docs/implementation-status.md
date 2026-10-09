@@ -6,7 +6,7 @@ Agentic Commerce Support Assistant
 
 ## Current Phase
 
-Commerce database schema completed.
+RAG data layer and retrieval foundation completed.
 
 ## Completed
 
@@ -91,6 +91,29 @@ Explicitly not implemented:
 - CRUD APIs
 - AI implementation
 
+### Task 03 - Realistic Fictional Commerce Seed Dataset
+
+Status: Complete
+
+Implemented deterministic fictional customers, products, variants, orders, and shipments with a repeatable local `python -m app.db.seed --reset` command.
+
+### Task 04 - RAG Data Layer and Retrieval Pipeline
+
+Status: Complete
+
+Implemented:
+
+- KnowledgeDocument and KnowledgeChunk SQLAlchemy models and Alembic migration
+- PostgreSQL pgvector embeddings with exact cosine-distance search
+- deterministic Markdown knowledge corpus and chunking
+- idempotent manual ingestion command using OpenAI embeddings
+- reusable evidence-only retrieval service with structured source metadata
+
+Validation:
+
+- unit tests with mocked embedding behavior
+- Alembic migration applied successfully to the local pgvector PostgreSQL container
+
 ## Architecture Decisions
 
 Current agreed direction:
@@ -110,15 +133,9 @@ Current agreed direction:
 
 ## Next Planned Task
 
-### Task 03 - Realistic Fictional Commerce Seed Dataset
+### Task 05 - Order and Product Application Tools
 
 ## Planned Milestones
-
-### Task 03
-Realistic fictional commerce seed dataset
-
-### Task 04
-RAG schema, ingestion, embeddings, and pgvector retrieval
 
 ### Task 05
 Order and product application tools

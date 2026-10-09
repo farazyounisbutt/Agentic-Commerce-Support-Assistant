@@ -10,6 +10,7 @@ from app.models.commerce import (
     Shipment,
     ShipmentStatus,
 )
+from app.models.knowledge import KnowledgeChunk, KnowledgeDocument
 
 __all__ = [
     "Customer",
@@ -20,4 +21,6 @@ __all__ = [
     "ProductVariant",
     "Shipment",
     "ShipmentStatus",
+    "KnowledgeChunk",
+    "KnowledgeDocument",
 ]
