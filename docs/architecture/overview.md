@@ -85,13 +85,13 @@ Technology:
 
 The backend owns:
 
-- HTTP APIs
+- HTTP APIs (`POST /api/chat` and `POST /api/chat/{conversation_id}/resume`)
 - application configuration
 - database access
 - domain services
 - AI orchestration integration
-- trace persistence
-- human-review APIs
+- process-local workflow/checkpoint lifetime for the MVP
+- human-review resume API
 
 ## Agent Orchestration
 
@@ -103,7 +103,7 @@ LangGraph is responsible for:
 - conditional transitions
 - human-review interrupts
 - graph resume behavior
-- persisted workflow state
+- process-local checkpoint state through LangGraph `InMemorySaver` for the MVP
 
 LangChain is used where useful for:
 
@@ -173,6 +173,8 @@ Reasons:
 
 Do not add a separate vector database unless a future requirement materially justifies it.
 
+Retrieval is evidence-first: the workflow compares the smallest returned cosine distance with a `0.70` maximum relevance threshold. A query with no chunks, or with only chunks above that threshold, is marked insufficient rather than grounded.
+
 ## Human-in-the-Loop
 
 Sensitive requests should route to a human-review state.
@@ -186,6 +188,8 @@ The reviewer may:
 - edit and approve
 
 The MVP does not execute real refunds or payments.
+
+`InMemorySaver` is deliberately process-local for this demo. A production deployment would need durable LangGraph checkpoint storage before review work can survive a backend restart.
 
 ## Safety / Grounding Strategy
 

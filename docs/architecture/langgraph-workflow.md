@@ -137,6 +137,8 @@ evaluate_response
 
 Retrieved policy/FAQ evidence should be attached to the graph state and later exposed as sources.
 
+The workflow treats chunks as grounded only when the smallest returned pgvector cosine distance is at or below `0.70`. Nearest-neighbor results above that threshold remain observable in the trace but produce `INSUFFICIENT_EVIDENCE` and a safe response.
+
 ## Order Route
 
 Typical path:
@@ -204,6 +206,8 @@ A reviewer can later:
 - reject the suggested resolution
 
 The graph should resume using the same persisted thread/workflow context.
+
+For the MVP, `InMemorySaver` retains that context only for the running API process; it is intentionally not durable storage.
 
 ## Evidence and Risk Evaluation
 

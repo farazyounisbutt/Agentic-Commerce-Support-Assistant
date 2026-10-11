@@ -6,7 +6,7 @@ Agentic Commerce Support Assistant
 
 ## Current Phase
 
-Browser chat, trace, and human-review demo completed.
+Final MVP polish, documentation, and demo-readiness completed.
 
 ## Completed
 
@@ -180,6 +180,25 @@ Validation:
 - backend endpoint tests with mocked workflow dependencies
 - frontend type-check and production build
 
+### Task 09 - Final MVP Polish, Documentation, and Demo Readiness
+
+Status: Complete
+
+Implemented:
+
+- responsive chat/readability improvements, clear loading and error states, and fictional-demo context
+- clearer review payload presentation (request, proposed response, risk, and disabled controls while resuming)
+- Agent Trace labels for routing, evidence, retrieved sources, typed tool results, and risk flags without private reasoning
+- a supported ESLint 9 / Next.js 16 flat configuration
+- a complete project README and portfolio demo guide
+- architecture documentation updates for the shipped API, relevance gate, chat/trace, and process-local HITL checkpoint limitation
+
+Validation:
+
+- backend pytest and Python compilation
+- frontend type-check, ESLint, and production build
+- repository diff and tracked-file hygiene checks
+
 ## Architecture Decisions
 
 Current agreed direction:
@@ -199,12 +218,9 @@ Current agreed direction:
 
 ## Next Planned Task
 
-### Task 09 - Testing, Demo Polish, and Portfolio Assets
-
 ## Planned Milestones
 
-### Task 09
-Testing, demo polish, README, diagrams, screenshots, and portfolio assets
+No additional task is currently planned. Durable checkpoints, reviewer authentication, and broader evaluation harnesses remain future enhancements rather than MVP scope.
 
 ## Development Process
 
