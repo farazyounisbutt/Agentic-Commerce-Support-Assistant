@@ -1,9 +1,15 @@
 from dataclasses import dataclass
 
+import pytest
+
 from app.ai.graph.workflow import (
+    HumanReviewAction,
+    HumanReviewDecision,
     Intent,
     IntentClassification,
     SupportWorkflow,
+    WorkflowNotFoundError,
+    WorkflowStatus,
     WorkflowDependencies,
 )
 from app.ai.retrieval.service import RetrievalResult
@@ -91,6 +97,7 @@ def test_shipping_question_routes_to_knowledge_with_evidence() -> None:
     ).run("How long does standard shipping take?")
 
     assert result.intent is Intent.KNOWLEDGE
+    assert result.workflow_status is WorkflowStatus.COMPLETED
     assert result.evidence_status == "GROUNDED"
     assert "retrieve_knowledge" in result.graph_path
     assert result.sources[0].source_name == "shipping-policy.md"
@@ -121,19 +128,60 @@ def test_order_and_product_messages_route_to_typed_tools() -> None:
     product = _workflow().run("Do you have Trail Runner shoes in size 10?")
 
     assert order.intent is Intent.ORDER_LOOKUP
+    assert order.workflow_status is WorkflowStatus.COMPLETED
     assert order.evidence_status == "GROUNDED"
     assert order.tool_results[0]["found"] is True
     assert product.intent is Intent.PRODUCT_LOOKUP
+    assert product.workflow_status is WorkflowStatus.COMPLETED
     assert product.tool_results[0]["matching_variants"][0]["available"] is True
 
 
-def test_sensitive_request_requires_review_without_interrupting() -> None:
-    result = _workflow().run("My order arrived damaged. Refund it.")
+def test_sensitive_request_interrupts_with_structured_review_payload() -> None:
+    result = _workflow().start("My order arrived damaged. Refund it.", conversation_id="review-thread")
 
     assert result.intent is Intent.REFUND_OR_EXCEPTION
+    assert result.workflow_status is WorkflowStatus.INTERRUPTED
     assert result.escalation_required is True
     assert result.evidence_status == "REQUIRES_HUMAN_REVIEW"
-    assert "prepare_escalation" in result.graph_path
+    assert result.human_review_payload is not None
+    assert result.human_review_payload.conversation_id == "review-thread"
+    assert result.human_review_payload.allowed_actions == [
+        HumanReviewAction.APPROVE,
+        HumanReviewAction.EDIT,
+        HumanReviewAction.REJECT,
+    ]
+
+
+def test_human_decisions_resume_the_same_interrupted_thread() -> None:
+    workflow = _workflow()
+
+    approved = workflow.start("My order arrived damaged. Refund it.", conversation_id="approve-thread")
+    approved_result = workflow.resume(
+        "approve-thread", HumanReviewDecision(action=HumanReviewAction.APPROVE)
+    )
+    assert approved_result.workflow_status is WorkflowStatus.COMPLETED
+    assert approved_result.response == approved.draft_response
+
+    workflow.start("My order arrived damaged. Refund it.", conversation_id="edit-thread")
+    edited_result = workflow.resume(
+        "edit-thread",
+        HumanReviewDecision(action=HumanReviewAction.EDIT, edited_response="We will review the photos first."),
+    )
+    assert edited_result.response == "We will review the photos first."
+
+    workflow.start("My order arrived damaged. Refund it.", conversation_id="reject-thread")
+    rejected_result = workflow.resume(
+        "reject-thread", HumanReviewDecision(action=HumanReviewAction.REJECT)
+    )
+    assert rejected_result.response == "Your request needs additional review before a resolution can be confirmed."
+
+
+def test_invalid_edit_and_unknown_thread_fail_clearly() -> None:
+    with pytest.raises(ValueError, match="edited_response"):
+        HumanReviewDecision(action=HumanReviewAction.EDIT)
+
+    with pytest.raises(WorkflowNotFoundError, match="unknown-thread"):
+        _workflow().resume("unknown-thread", HumanReviewDecision(action=HumanReviewAction.APPROVE))
 
 
 def test_unknown_and_missing_evidence_use_safe_fallbacks() -> None:

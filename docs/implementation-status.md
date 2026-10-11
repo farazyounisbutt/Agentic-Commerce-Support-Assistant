@@ -6,7 +6,7 @@ Agentic Commerce Support Assistant
 
 ## Current Phase
 
-Core LangGraph orchestration completed.
+LangGraph human-in-the-loop interrupt/resume completed.
 
 ## Completed
 
@@ -146,6 +146,24 @@ Validation:
 
 - deterministic unit tests with mocked model, retrieval, and commerce-tool dependencies
 
+### Task 07 - Human-in-the-Loop Interrupts and Resume Workflow
+
+Status: Complete
+
+Implemented:
+
+- real LangGraph `interrupt()` and `Command(resume=...)` behavior on sensitive requests
+- in-memory LangGraph checkpointer keyed by stable conversation/thread IDs
+- typed human review payload and approve, edit, and reject decision contracts
+- safe finalization without executing refunds, payments, cancellations, or other mutations
+
+Validation:
+
+- deterministic interrupt/resume tests with mocked workflow dependencies
+- live OpenAI-backed damaged/refund workflow validation: interrupt and structured review payload returned correctly
+- live APPROVE resume completed with the proposed response; live EDIT resume completed with the reviewer-edited response
+- `InMemorySaver` remains intentionally process-local for the MVP
+
 ## Architecture Decisions
 
 Current agreed direction:
@@ -165,12 +183,9 @@ Current agreed direction:
 
 ## Next Planned Task
 
-### Task 07 - Human-in-the-Loop Interrupts and Resume Workflow
+### Task 08 - Customer Chat and Agent Trace UI
 
 ## Planned Milestones
-
-### Task 07
-Human-in-the-loop interrupts and resume workflow
 
 ### Task 08
 Customer Chat and Agent Trace UI
