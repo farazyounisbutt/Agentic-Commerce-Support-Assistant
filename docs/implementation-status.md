@@ -6,7 +6,7 @@ Agentic Commerce Support Assistant
 
 ## Current Phase
 
-LangGraph human-in-the-loop interrupt/resume completed.
+Browser chat, trace, and human-review demo completed.
 
 ## Completed
 
@@ -164,6 +164,22 @@ Validation:
 - live APPROVE resume completed with the proposed response; live EDIT resume completed with the reviewer-edited response
 - `InMemorySaver` remains intentionally process-local for the MVP
 
+### Task 08 - API Layer, Customer Chat UI, and Agent Trace
+
+Status: Complete
+
+Implemented:
+
+- FastAPI chat start and human-review resume endpoints with typed contracts
+- process-lifetime workflow runtime preserving the in-memory HITL checkpointer while opening database sessions per operation
+- responsive Next.js customer chat with demo prompts, loading/error states, and browser-session conversation ID
+- structured Agent Trace panel and approve, edit, reject review controls
+
+Validation:
+
+- backend endpoint tests with mocked workflow dependencies
+- frontend type-check and production build
+
 ## Architecture Decisions
 
 Current agreed direction:
@@ -183,12 +199,9 @@ Current agreed direction:
 
 ## Next Planned Task
 
-### Task 08 - Customer Chat and Agent Trace UI
+### Task 09 - Testing, Demo Polish, and Portfolio Assets
 
 ## Planned Milestones
-
-### Task 08
-Customer Chat and Agent Trace UI
 
 ### Task 09
 Testing, demo polish, README, diagrams, screenshots, and portfolio assets
